@@ -31,6 +31,7 @@ export class MeComponent implements OnInit {
   }
 
   public delete(): void {
+    console.log("componenent", this.sessionService.sessionInformation!.id.toString())
     this.userService
       .delete(this.sessionService.sessionInformation!.id.toString())
       .subscribe((_) => {

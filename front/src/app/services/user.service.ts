@@ -17,6 +17,7 @@ export class UserService {
   }
 
   public delete(id: string): Observable<any> {
+    console.log("service", id)
     return this.httpClient.delete(`${this.pathService}/${id}`);
   }
 }
