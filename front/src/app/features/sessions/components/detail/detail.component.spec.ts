@@ -7,12 +7,16 @@ import { expect } from '@jest/globals';
 import { SessionService } from '../../../../services/session.service';
 
 import { DetailComponent } from './detail.component';
+import { Session } from '../../interfaces/session.interface';
+import { SessionApiService } from '../../services/session-api.service';
+import { of } from 'rxjs';
 
 
 describe('DetailComponent', () => {
   let component: DetailComponent;
   let fixture: ComponentFixture<DetailComponent>; 
   let service: SessionService;
+  let sessionApiService: SessionApiService;
 
   const mockSessionService = {
     sessionInformation: {
@@ -20,6 +24,17 @@ describe('DetailComponent', () => {
       id: 1
     }
   }
+  const mockSession: Session = {
+    id: 1,
+    name: 'Test Session',
+    description: "desc",
+    date: new Date(),
+    teacher_id: 1,
+    users: [],
+    createdAt: new Date(),
+    updatedAt: new Date()
+  };
+  
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -42,5 +57,23 @@ describe('DetailComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should fetch and display session details on init', () => {
+    const id = "1";
+    component.sessionId = id;
+    
+    const detailSpy = jest.spyOn(sessionApiService, 'detail').mockReturnValue(of(mockSession));
+
+    component.ngOnInit();
+
+    fixture.detectChanges();
+    expect(component.userId).toEqual(mockSessionService.sessionInformation.id.toString());
+
+    expect(detailSpy).toHaveBeenCalledWith(id);
+    expect(component.session).toEqual(mockSession);
+    detailSpy.mockRestore();
+  });
+
+
 });
 
