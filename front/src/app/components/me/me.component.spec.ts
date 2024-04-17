@@ -142,8 +142,8 @@ describe('MeComponent', () => {
     expect(backSpy).toHaveBeenCalled();
   });
 
-  //Unitaire : vérifie si le compte utilisateur est supprimé avec succès et si la navigation vers la page d'accueil est effectuée après la suppression, en inspectant les appels de méthodes aux services mockés.
-  it('should delete account and navigate to home', () => {
+  //Intégration : vérifie si le compte utilisateur est supprimé avec succès et si la navigation vers la page d'accueil est effectuée après la suppression, en inspectant les appels de méthodes aux services mockés.
+  it('should delete account and navigate to home', fakeAsync(() => {
     component.delete();// Exécute la méthode à tester
     // Vérifie si la méthode delete du service UserService a été appelée avec l'ID de l'utilisateur
     expect(userServiceMock.delete).toHaveBeenCalledWith(mockUser.id.toString());
@@ -153,8 +153,8 @@ describe('MeComponent', () => {
     component.delete();
     expect(matSnackBarMock.open).toHaveBeenCalledWith('Your account has been deleted !', 'Close', { duration: 3000 }); // Vérifie si le message approprié est affiché avec la méthode open du MatSnackBar
     expect(sessionServiceMock.logOut).toHaveBeenCalled(); // Vérifie si la méthode logOut du service SessionService a été appelée
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/']); // Vérifie si la méthode navigate du router a été appelée avec la route '/'
-  });
+    expect(router.navigate).toHaveBeenCalledWith(['/']); // Vérifie si la méthode navigate du router a été appelée avec la route '/'
+  }));
 
   //Intégration
   it('should delete account and navigate to home', fakeAsync(() => {
@@ -171,12 +171,12 @@ describe('MeComponent', () => {
     tick();
     // Vérifier que la méthode delete du service a été appelée avec le bon paramètre
     expect(userServiceMock.delete).toHaveBeenCalledWith(mockUser.id.toString());
-    // Vérifier que la méthode navigate du router a été appelée avec le bon chemin
-    expect(router.navigate).toHaveBeenCalledWith(['/']);
-    // Vérifier que la méthode logOut de sessionService a été appelée
-    expect(sessionServiceMock.logOut).toHaveBeenCalled();
     // Vérifier que la méthode open de matSnackBar a été appelée avec les bons arguments
     expect(matSnackBarMock.open).toHaveBeenCalledWith('Your account has been deleted !', 'Close', { duration: 3000 });
+    // Vérifier que la méthode logOut de sessionService a été appelée
+    expect(sessionServiceMock.logOut).toHaveBeenCalled();
+    // Vérifier que la méthode navigate du router a été appelée avec le bon chemin
+    expect(router.navigate).toHaveBeenCalledWith(['/']);
   }));
 
 });
