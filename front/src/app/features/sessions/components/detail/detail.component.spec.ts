@@ -62,7 +62,7 @@ describe('DetailComponent', () => {
     const id = "1";
     component.sessionId = id;
     
-    const detailSpy = jest.spyOn(sessionApiService, 'detail').mockReturnValue(of(mockSession));
+    const detailSpy = jest.spyOn(sessionApiService, 'detail').mockReturnValue(of({} as Session))
 
     component.ngOnInit();
 
@@ -71,9 +71,33 @@ describe('DetailComponent', () => {
 
     expect(detailSpy).toHaveBeenCalledWith(id);
     expect(component.session).toEqual(mockSession);
-    detailSpy.mockRestore();
+  });
+
+  it('should navigate back when back button is cliked', () => {
+    const backSpy = jest.spyOn(window.history, 'back');
+    component.back();
+    expect(backSpy).toHaveBeenCalled();
   });
 
 
+  it('should allow an admin to delete a session', () => {
+    mockSessionService.sessionInformation.admin = true;
+    fixture = TestBed.createComponent(DetailComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    expect(component.isAdmin).toBe(true);
+    const deleteSpy = jest.spyOn(sessionApiService, 'delete').mockReturnValue(of(null));
+    component.delete();
+    expect(deleteSpy).toHaveBeenCalledWith(component.sessionId);
+  });
 });
+
+/*
+ Cannot spyOn on a primitive value; undefined given
+
+      88 |
+      89 |     expect(component.isAdmin).toBe(true);
+    > 90 |     const deleteSpy = jest.spyOn(sessionApiService, 'delete').mockReturnValue(of(null));
+*/
 
