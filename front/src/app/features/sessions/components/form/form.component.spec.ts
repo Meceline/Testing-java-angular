@@ -18,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Session } from '../../interfaces/session.interface';
 import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import { spyOn } from 'jest-mock';
+import { of } from 'rxjs';
 
 describe('FormComponent', () => {
   let component: FormComponent;
@@ -58,12 +59,7 @@ describe('FormComponent', () => {
       providers: [
         { provide: SessionService, useValue: mockSessionService },
         SessionApiService,
-        {
-          provide: MatSnackBar,
-          useValue: {
-            open: jest.fn()
-          }
-        }
+        { provide: MatSnackBar, useValue: { open: jest.fn() } }
       ],
       declarations: [FormComponent]
     })
@@ -80,6 +76,32 @@ describe('FormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should navigate to "sessions" route', () => {
+    const navigateSpy = spyOn(TestBed.inject(Router), 'navigate'); 
+    component['exitPage']('Test message');  
+    expect(navigateSpy).toHaveBeenCalledWith(['sessions']);
+  });
+
+  it('should create session and navigate to "/sessions" route after showing message', () => {
+    const mockSession: Partial<Session> = {
+      name: 'testSession',
+      description: 'test session description',
+      date: new Date(),
+      teacher_id: 1
+    };
+    const createSpy = jest.spyOn(TestBed.inject(SessionApiService), 'create').mockReturnValue(of(mockSession as Session));
+    component.submit();
+
+    // Attendre que les observables se résolvent
+    fixture.whenStable().then(() => {
+      expect(createSpy).toHaveBeenCalled(); 
+      const matSnackBarSpy = spyOn(matSnackBar, 'open');
+      const routerSpy = spyOn(router, 'navigate');
+      expect(matSnackBarSpy).toHaveBeenCalledWith('Session created !', 'Close', { duration: 3000 });
+      expect(routerSpy).toHaveBeenCalledWith(['/sessions']);
+    });
   });
 
   it('should create form with empty fields when the route is create', () => {
