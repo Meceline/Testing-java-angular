@@ -21,7 +21,7 @@ describe('LogOut', () => {
     
       it('should logout successfully', () => {
         cy.get('.link').contains('Logout').click()
-        cy.url().should('eq', Cypress.config().baseUrl + '/')
+        cy.url().should('eq', Cypress.config().baseUrl)
         cy.get('.link').contains('Logout').should('not.exist')
       })
 
