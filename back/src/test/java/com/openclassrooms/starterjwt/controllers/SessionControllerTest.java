@@ -10,7 +10,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Date;
 
@@ -20,7 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.empty;
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -74,7 +72,35 @@ public class SessionControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sessionDtoJson))
                 .andExpect(status().isOk());
+    }
 
+    @Test
+    @WithMockUser
+    public void updateTest() throws Exception {
+        SessionDto sessionDto = new SessionDto();
+        sessionDto.setName("updated session");
+        sessionDto.setDate(new Date());
+        sessionDto.setTeacher_id(2L);
+        sessionDto.setDescription("new description");
+
+        String sessionsDtoJson = new ObjectMapper().writeValueAsString(sessionDto);
+
+        Long id = 1L;
+
+        mockMvc.perform(post("/api/session/$id", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(sessionsDtoJson))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    public void deleteTest() throws Exception {
+        Long id = 1L;
+        Long userId = 2L;
+
+        mockMvc.perform(delete("/api/session/{id}/participate/{userId}"))
+                .andExpect(status().isOk());
     }
 
 }
