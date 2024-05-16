@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.notNullValue;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AuthControllerTest {
-    @Autowired // Injecte une instance de MockMvc
+    @Autowired
     public MockMvc mockMvc;
 
     @MockBean
@@ -37,21 +37,19 @@ public class AuthControllerTest {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail("yoga@studio.com");
         loginRequest.setPassword("test!1234");
-        //converti en Json
         String jsonLoginRequest = new ObjectMapper().writeValueAsString(loginRequest);
 
         mockMvc.perform(post("/api/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON) // Définir le type de contenu
-                        .content(jsonLoginRequest)) // Définir le corps de la requête JSON
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonLoginRequest))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token", is(notNullValue())));
     }
     @Test
     public void authenticatUserWithBadEmailTest() throws Exception{
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("falseEmail@test.com");
+        loginRequest.setEmail("USER@test.com");
         loginRequest.setPassword("falsePassword");
-        //converti en Json
         String jsonLoginRequest = new ObjectMapper().writeValueAsString(loginRequest);
 
         mockMvc.perform(post("/api/auth/login")
@@ -63,7 +61,7 @@ public class AuthControllerTest {
     @Test
     public void registerUserTest() throws Exception {
         SignupRequest signupRequest = new SignupRequest();
-        signupRequest.setEmail("john33@test.com");
+        signupRequest.setEmail("user@test.com");
         signupRequest.setPassword("azqs");
         signupRequest.setFirstName("John");
         signupRequest.setLastName("Doe");
@@ -80,7 +78,7 @@ public class AuthControllerTest {
     @Test
     public void registerUserBadRequestTest() throws Exception{
         SignupRequest signupRequest = new SignupRequest();
-        signupRequest.setEmail("test@test.com");
+        signupRequest.setEmail("user@test.com");
         signupRequest.setPassword("password");
         signupRequest.setFirstName("First");
         signupRequest.setLastName("Last");

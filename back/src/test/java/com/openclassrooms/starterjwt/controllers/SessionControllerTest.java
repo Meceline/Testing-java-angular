@@ -28,7 +28,7 @@ public class SessionControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "user@test.com")
     public void findByIdTest() throws Exception {
         Long id = 1L;
 
@@ -41,15 +41,15 @@ public class SessionControllerTest {
     }
 
     @Test
-    @WithMockUser
-    public void findByIdNotFoundTest() throws Exception{
+    @WithMockUser(username = "user@test.com")
+    public void findByI_dNotFoundTest() throws Exception{
         Long id = 123456L;
         mockMvc.perform((get("/api/session/{id}", id)))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "user@test.com")
     public void findAllTest() throws Exception{
         mockMvc.perform(get("/api/session"))
                 .andExpect(status().isOk())
@@ -58,7 +58,7 @@ public class SessionControllerTest {
 
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "user@test.com")
     public void createTest() throws Exception {
         SessionDto sessionDto = new SessionDto();
         sessionDto.setName("new session");
@@ -75,7 +75,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "user@test.com")
     public void updateTest() throws Exception {
         SessionDto sessionDto = new SessionDto();
         sessionDto.setName("updated session");
@@ -93,13 +93,32 @@ public class SessionControllerTest {
                 .andExpect(status().isOk());
     }
 
+    //DELETE SESSION
     @Test
-    @WithMockUser
-    public void deleteTest() throws Exception {
+    @WithMockUser(username = "user@test.com")
+    public void saveTest() throws Exception {
         Long id = 1L;
         Long userId = 2L;
 
         mockMvc.perform(delete("/api/session/{id}/participate/{userId}"))
+                .andExpect(status().isOk());
+    }
+    @Test
+    @WithMockUser(username = "user@test.com")
+    public void participateTest() throws Exception {
+        Long sessionId = 1L;
+        Long userId = 2L;
+        mockMvc.perform(post("/api/session/{id}/participate/{userId}", sessionId, userId))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "user@test.com")
+    public void noLongerParticipateTest() throws Exception {
+        Long sessionId = 1L;
+        Long userId = 2L;
+
+        mockMvc.perform(delete("/api/session/{id}/participate/{userId}", sessionId, userId))
                 .andExpect(status().isOk());
     }
 
