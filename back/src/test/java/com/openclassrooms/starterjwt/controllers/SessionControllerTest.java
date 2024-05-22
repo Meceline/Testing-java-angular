@@ -2,9 +2,6 @@ package com.openclassrooms.starterjwt.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.starterjwt.dto.SessionDto;
-
-import com.openclassrooms.starterjwt.models.Session;
-import com.openclassrooms.starterjwt.repository.SessionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -107,7 +104,7 @@ public class SessionControllerTest {
 
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void participateTest() throws Exception {
+    public void testParticipate() throws Exception {
         Long id = 2L;
         Long userId = 3L;
         mockMvc.perform(post("/api/session/{id}/participate/{userId}", id, userId))

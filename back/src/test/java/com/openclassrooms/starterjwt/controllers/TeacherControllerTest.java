@@ -25,7 +25,7 @@ public class TeacherControllerTest {
 
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void findByIdTest() throws Exception{
+    public void testFindById() throws Exception{
         mockMvc.perform(get("/api/teacher/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -36,7 +36,7 @@ public class TeacherControllerTest {
 
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void findAllTest() throws Exception {
+    public void testFindAll() throws Exception {
         mockMvc.perform(get("/api/teacher")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
