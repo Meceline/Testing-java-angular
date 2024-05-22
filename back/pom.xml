@@ -104,16 +104,13 @@
 		</dependency>-->
 
 
-		<!--<dependency>
+		<!-- H2 Database -->
+		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
-		</dependency>-->
+
 
 
 	</dependencies>
@@ -158,12 +155,6 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.5</version>
 
-				<!--<configuration>
-					<excludes>
-						<exclude>sun/**</exclude>
-					</excludes>
-				</configuration>-->
-
 				<executions>
 					<execution>
 						<goals>
@@ -177,6 +168,14 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
+						<configuration>
+							<excludes>
+								<exclude>com/openclassrooms/starterjwt/dto/**/*.class</exclude>
+								<exclude>com/openclassrooms/starterjwt/models/**/*.class</exclude>
+								<exclude>com/openclassrooms/starterjwt/payload/request/**/*.class</exclude>
+								<exclude>com/openclassrooms/starterjwt/payload/response/**/*.class</exclude>
+							</excludes>
+						</configuration>
 					</execution>
 
 					<execution>
