@@ -30,12 +30,12 @@ public class SessionControllerTest {
 
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void testFindById_Success() throws Exception {
+    public void findById_Success() throws Exception { //Retourne une session avec succès
         Long id = 1L;
+
         String expectedName = "Matin";
         Long expectedTeacherId = 1L;
         String expectedDescription = "seance du matin";
-
 
         mockMvc.perform(get("/api/session/{id}", id))
                 .andExpect(status().isOk())
@@ -47,28 +47,33 @@ public class SessionControllerTest {
 
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void testFindById_SessionNotFound() throws Exception {
+    public void findById_SessionNotFound() throws Exception { //Retourne une erreur lorsque la session n'est pas trouvée
+        // ID de la session qui n'existe pas
         Long id = 99L;
+
         mockMvc.perform(get("/api/session/{id}", id))
                 .andExpect(status().isNotFound());
     }
+
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void testFindAll_Integration() throws Exception {
+    public void findAll_Integration() throws Exception { //Retourne toutes les sessions
         mockMvc.perform(get("/api/session"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", not(empty())));
     }
 
     @Test
-    @WithMockUser(username = "yoga@studio.com")
-    public void testCreate() throws Exception {
+    @WithMockUser(username = "yoga@studio.com") //Crée une nouvelle session avec succès
+    public void create() throws Exception {
+        // Crée un DTO de session avec les informations de test
         SessionDto sessionDto = new SessionDto();
         sessionDto.setName("Test Session");
         sessionDto.setDate(new Date());
         sessionDto.setTeacher_id(1L);
         sessionDto.setDescription("This is a test session.");
 
+        // Convertit le DTO en JSON
         String sessionDtoJson = new ObjectMapper().writeValueAsString(sessionDto);
 
         mockMvc.perform(post("/api/session")
@@ -79,52 +84,67 @@ public class SessionControllerTest {
 
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void testUpdate() throws Exception {
+    public void update() throws Exception { // Met à jour une session existante avec succès
+        // Crée un DTO de session avec les informations mises à jour
         SessionDto sessionDto = new SessionDto();
         sessionDto.setName("Updated Session");
         sessionDto.setDate(new Date());
         sessionDto.setTeacher_id(1L);
         sessionDto.setDescription("This is an updated test session.");
 
+        // Convertit le DTO en JSON
         String sessionDtoJson = new ObjectMapper().writeValueAsString(sessionDto);
+        // ID de la session à mettre à jour
         Long id = 1L;
+
+        // Effectue une requête PUT pour mettre à jour la session et vérifie la réponse
         mockMvc.perform(put("/api/session/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sessionDtoJson))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk());  // Vérifie que le statut de la réponse est 200 OK
     }
 
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void testDelete() throws Exception {
+    public void save() throws Exception { //Supprime une session avec succès
+        // ID de la session à supprimer
         Long id = 1L;
+
+        // Effectue une requête DELETE pour supprimer la session et vérifie la réponse
         mockMvc.perform(delete("/api/session/{id}", id))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk());  // Vérifie que le statut de la réponse est 200 OK
     }
 
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void testParticipate() throws Exception {
+    public void participate() throws Exception { // Vérifie qu'un utilisateur peut participer à une session avec succès
+        // ID de la session et de l'utilisateur
         Long id = 2L;
         Long userId = 3L;
+
         mockMvc.perform(post("/api/session/{id}/participate/{userId}", id, userId))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk());  // Vérifie que le statut de la réponse est 200 OK
     }
+
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void shouldNoLongerParticipateInSession() throws Exception {
+    public void noLongerParticipate() throws Exception { // Vérifie qu'un utilisateur peut arrêter de participer à une session avec succès
+        // ID de la session et de l'utilisateur
         Long id = 1L;
         Long userId = 3L;
 
+        // Vérifie que la session existe
         mockMvc.perform(get("/api/session/{id}", id))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk());  // Vérifie que le statut de la réponse est 200 OK
 
+        // Vérifie que l'utilisateur existe
         mockMvc.perform(get("/api/user/{id}", userId))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk());  // Vérifie que le statut de la réponse est 200 OK
 
+        // Effectue une requête DELETE pour retirer l'utilisateur de la session et vérifie la réponse
         mockMvc.perform(delete("/api/session/{id}/participate/{userId}", id, userId)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk());  // Vérifie que le statut de la réponse est 200 OK
     }
 }
 

@@ -23,7 +23,8 @@ public class UserControllerTest {
 
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void  testFindById() throws Exception{
+    public void testFindById() throws Exception { // Retourne un utilisateur avec succès
+        // ID de l'utilisateur à tester
         Long userId = 3L;
 
         mockMvc.perform(get("/api/user/{id}", userId))
@@ -34,19 +35,21 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.firstName", is("Jane")));
     }
 
-    //DELETE USER
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void testSave() throws Exception{
+    public void testSave() throws Exception { // Supprime un utilisateur avec succès
+        // ID de l'utilisateur à supprimer
         Long userId = 1L;
 
         mockMvc.perform(delete("/api/user/{id}", userId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
     @Test
     @WithMockUser(username = "yoga@studio.com")
-    public void testDeleteUserBadRequest() throws Exception {
+    public void testDeleteUserBadRequest() throws Exception { // Retourne une erreur BadRequest lorsque l'ID est invalide
+
         mockMvc.perform(delete("/api/user/invalidId")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
