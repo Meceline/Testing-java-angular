@@ -15,8 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,6 +58,22 @@ public class SessionMapperTest {
         assertEquals(sessionDto2.getName(), session2.getName());
     }
 
+    @Test
+    public void toEntity_withNullInput_returnsNull() {
+        // Convertit null en Entity
+        List<Session> result = sessionMapper.toEntity((List<SessionDto>) null);
+
+        // Vérifie que la conversion retourne null
+        assertNull(result);
+    }
+    @Test
+    public void toDto_withNullInput_returnsNull() {
+        // Convertit null en DTO
+        List<SessionDto> result = sessionMapper.toDto((List<Session>) null);
+
+        // Vérifie que la conversion retourne null
+        assertNull(result);
+    }
     @Test
     public void toEntityWithUsers() { //converti un Dto en session avec user
         // Crée un SessionDto avec une liste d'ID d'utilisateurs
@@ -137,4 +152,34 @@ public class SessionMapperTest {
         assertNotNull(result);
         assertEquals(teacher, result.getTeacher());
     }
+    @Test
+    public void testToDtoWithNullTeacher() {
+        // Crée une instance de Session sans enseignant
+        Session session = new Session();
+        session.setTeacher(null);
+
+        SessionDto result = sessionMapper.toDto(session);
+
+        // Vérifie que le résultat n'est pas null
+        assertNotNull(result);
+        // Vérifie que l'ID de l'enseignant dans le DTO est null
+        assertNull(result.getTeacher_id());
+    }
+
+    @Test
+    public void testToDtoWithTeacherNullId() {
+        // Crée une instance de Teacher avec un ID null
+        Teacher teacher = new Teacher();
+        teacher.setId(null);
+        Session session = new Session();
+        session.setTeacher(teacher);
+
+        // Convertit la session en DTO
+        SessionDto result = sessionMapper.toDto(session);
+
+        assertNotNull(result);
+        // Vérifie que l'ID de l'enseignant dans le DTO est null
+        assertNull(result.getTeacher_id());
+    }
+
 }

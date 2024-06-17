@@ -46,6 +46,7 @@ public class SessionServiceTest {
         });
     }
 
+
     //La session n'est pas trouvée
     @Test
     public void noLongerParticipate_WhenSessionNotFound_ShouldThrowNotFoundException() { //La session n'est pas trouvée
