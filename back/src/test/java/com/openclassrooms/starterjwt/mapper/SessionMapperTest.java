@@ -59,6 +59,15 @@ public class SessionMapperTest {
     }
 
     @Test
+    public void testToDto_NullSession() {
+        // Act
+        SessionDto result = sessionMapper.toDto((Session) null);
+
+        // Assert
+        assertNull(result, "The result should be null when the input session is null");
+    }
+
+    @Test
     public void toEntity_withNullInput_returnsNull() {
         // Convertit null en Entity
         List<Session> result = sessionMapper.toEntity((List<SessionDto>) null);

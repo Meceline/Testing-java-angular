@@ -61,6 +61,20 @@ public class UserControllerTest {
                .andExpect(jsonPath("$.firstName", is("Jane")));
    }
 
+
+    @Test
+    @WithMockUser(username = "user")
+    public void testFindById_NotFound() throws Exception {
+        // Arrange
+        Long userId = 999L;
+        when(userService.findById(userId)).thenReturn(null);
+
+        // Act & Assert
+        mockMvc.perform(get("/" + userId))
+                .andExpect(status().isNotFound());
+    }
+
+
     @Test
     @WithMockUser(username = "yoga@studio.com")
     public void testFindById_InvalidId() throws Exception { // Retourne 400 lorsque l'ID est invalide

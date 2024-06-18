@@ -2,6 +2,7 @@ package com.openclassrooms.starterjwt.security.services;
 
 import org.junit.jupiter.api.Test;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserDetailsImplTest {
@@ -73,5 +74,6 @@ public class UserDetailsImplTest {
         // Vérification que deux utilisateurs avec des id différents ne sont pas égaux
         assertNotEquals(user1, user3);
     }
+
 
 }
