@@ -1,6 +1,5 @@
 package com.openclassrooms.starterjwt.mapper;
 
-
 import com.openclassrooms.starterjwt.dto.UserDto;
 import com.openclassrooms.starterjwt.models.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,8 +24,9 @@ public class UserMapperTest {
         userMapper = Mappers.getMapper(UserMapper.class);
     }
 
+    // Unitaire
     @Test
-    public void toEntity() {
+    public void toEntity() { // Convertit un UserDto en User
         // Crée un DTO utilisateur
         UserDto userDto = new UserDto();
         userDto.setId(1L);
@@ -42,18 +42,19 @@ public class UserMapperTest {
         User user = userMapper.toEntity(userDto);
 
         // Vérifie que les champs sont mappés correctement
-        assertEquals(userDto.getId(), user.getId());
-        assertEquals(userDto.getEmail(), user.getEmail());
-        assertEquals(userDto.getFirstName(), user.getFirstName());
-        assertEquals(userDto.getLastName(), user.getLastName());
-        assertEquals(userDto.isAdmin(), user.isAdmin());
-        assertEquals(userDto.getPassword(), user.getPassword());
-        assertEquals(userDto.getCreatedAt(), user.getCreatedAt());
-        assertEquals(userDto.getUpdatedAt(), user.getUpdatedAt());
+        assertEquals(userDto.getId(), user.getId()); // Vérifie que l'ID est mappé correctement
+        assertEquals(userDto.getEmail(), user.getEmail()); // Vérifie que l'email est mappé correctement
+        assertEquals(userDto.getFirstName(), user.getFirstName()); // Vérifie que le prénom est mappé correctement
+        assertEquals(userDto.getLastName(), user.getLastName()); // Vérifie que le nom de famille est mappé correctement
+        assertEquals(userDto.isAdmin(), user.isAdmin()); // Vérifie que le statut d'admin est mappé correctement
+        assertEquals(userDto.getPassword(), user.getPassword()); // Vérifie que le mot de passe est mappé correctement
+        assertEquals(userDto.getCreatedAt(), user.getCreatedAt()); // Vérifie que la date de création est mappée correctement
+        assertEquals(userDto.getUpdatedAt(), user.getUpdatedAt()); // Vérifie que la date de mise à jour est mappée correctement
     }
 
+    // Unitaire
     @Test
-    public void toDto() {
+    public void toDto() { // Convertit un User en UserDto
         // Crée une entité utilisateur
         User user = new User();
         user.setId(1L);
@@ -69,17 +70,19 @@ public class UserMapperTest {
         UserDto userDto = userMapper.toDto(user);
 
         // Vérifie que les champs sont mappés correctement
-        assertEquals(user.getId(), userDto.getId());
-        assertEquals(user.getEmail(), userDto.getEmail());
-        assertEquals(user.getFirstName(), userDto.getFirstName());
-        assertEquals(user.getLastName(), userDto.getLastName());
-        assertEquals(user.isAdmin(), userDto.isAdmin());
-        assertEquals(user.getPassword(), userDto.getPassword());
-        assertEquals(user.getCreatedAt(), userDto.getCreatedAt());
-        assertEquals(user.getUpdatedAt(), userDto.getUpdatedAt());
+        assertEquals(user.getId(), userDto.getId()); // Vérifie que l'ID est mappé correctement
+        assertEquals(user.getEmail(), userDto.getEmail()); // Vérifie que l'email est mappé correctement
+        assertEquals(user.getFirstName(), userDto.getFirstName()); // Vérifie que le prénom est mappé correctement
+        assertEquals(user.getLastName(), userDto.getLastName()); // Vérifie que le nom de famille est mappé correctement
+        assertEquals(user.isAdmin(), userDto.isAdmin()); // Vérifie que le statut d'admin est mappé correctement
+        assertEquals(user.getPassword(), userDto.getPassword()); // Vérifie que le mot de passe est mappé correctement
+        assertEquals(user.getCreatedAt(), userDto.getCreatedAt()); // Vérifie que la date de création est mappée correctement
+        assertEquals(user.getUpdatedAt(), userDto.getUpdatedAt()); // Vérifie que la date de mise à jour est mappée correctement
     }
+
+    // Unitaire
     @Test
-    public void toEntityList() {
+    public void toEntityList() { // Convertit une liste de UserDto en liste de User
         ArrayList<UserDto> list = null;
         // Crée un DTO utilisateur
         UserDto userDto = new UserDto();
@@ -93,24 +96,26 @@ public class UserMapperTest {
         userDto.setUpdatedAt(LocalDateTime.now());
 
         List<User> userList = userMapper.toEntity(list);
-        assertNull(userList);
+        assertNull(userList); // Vérifie que la conversion de null renvoie null
         list = new ArrayList<>();
         list.add(userDto);
-        // Convertit le DTO en entité
+        // Convertit la liste de DTO en entités
         userList = userMapper.toEntity(list);
         User user = userList.get(0);
         // Vérifie que les champs sont mappés correctement
-        assertEquals(userDto.getId(), user.getId());
-        assertEquals(userDto.getEmail(), user.getEmail());
-        assertEquals(userDto.getFirstName(), user.getFirstName());
-        assertEquals(userDto.getLastName(), user.getLastName());
-        assertEquals(userDto.isAdmin(), user.isAdmin());
-        assertEquals(userDto.getPassword(), user.getPassword());
-        assertEquals(userDto.getCreatedAt(), user.getCreatedAt());
-        assertEquals(userDto.getUpdatedAt(), user.getUpdatedAt());
+        assertEquals(userDto.getId(), user.getId()); // Vérifie que l'ID est mappé correctement
+        assertEquals(userDto.getEmail(), user.getEmail()); // Vérifie que l'email est mappé correctement
+        assertEquals(userDto.getFirstName(), user.getFirstName()); // Vérifie que le prénom est mappé correctement
+        assertEquals(userDto.getLastName(), user.getLastName()); // Vérifie que le nom de famille est mappé correctement
+        assertEquals(userDto.isAdmin(), user.isAdmin()); // Vérifie que le statut d'admin est mappé correctement
+        assertEquals(userDto.getPassword(), user.getPassword()); // Vérifie que le mot de passe est mappé correctement
+        assertEquals(userDto.getCreatedAt(), user.getCreatedAt()); // Vérifie que la date de création est mappée correctement
+        assertEquals(userDto.getUpdatedAt(), user.getUpdatedAt()); // Vérifie que la date de mise à jour est mappée correctement
     }
+
+    // Unitaire
     @Test
-    public void toDtoList() {
+    public void toDtoList() { // Convertit une liste de User en liste de UserDto
         List<User> list = null;
         // Crée une entité utilisateur
         User user = new User();
@@ -125,7 +130,7 @@ public class UserMapperTest {
 
         // Convertit l'entité en DTO
         List<UserDto> userDtoList = userMapper.toDto(list);
-        assertNull(list);
+        assertNull(userDtoList); // Vérifie que la conversion de null renvoie null
         list = new ArrayList<>();
         list.add(user);
         userDtoList = userMapper.toDto(list);
@@ -133,15 +138,13 @@ public class UserMapperTest {
         UserDto userDto = userDtoList.get(0);
 
         // Vérifie que les champs sont mappés correctement
-        assertEquals(user.getId(), userDto.getId());
-        assertEquals(user.getEmail(), userDto.getEmail());
-        assertEquals(user.getFirstName(), userDto.getFirstName());
-        assertEquals(user.getLastName(), userDto.getLastName());
-        assertEquals(user.isAdmin(), userDto.isAdmin());
-        assertEquals(user.getPassword(), userDto.getPassword());
-        assertEquals(user.getCreatedAt(), userDto.getCreatedAt());
-        assertEquals(user.getUpdatedAt(), userDto.getUpdatedAt());
+        assertEquals(user.getId(), userDto.getId()); // Vérifie que l'ID est mappé correctement
+        assertEquals(user.getEmail(), userDto.getEmail()); // Vérifie que l'email est mappé correctement
+        assertEquals(user.getFirstName(), userDto.getFirstName()); // Vérifie que le prénom est mappé correctement
+        assertEquals(user.getLastName(), userDto.getLastName()); // Vérifie que le nom de famille est mappé correctement
+        assertEquals(user.isAdmin(), userDto.isAdmin()); // Vérifie que le statut d'admin est mappé correctement
+        assertEquals(user.getPassword(), userDto.getPassword()); // Vérifie que le mot de passe est mappé correctement
+        assertEquals(user.getCreatedAt(), userDto.getCreatedAt()); // Vérifie que la date de création est mappée correctement
+        assertEquals(user.getUpdatedAt(), userDto.getUpdatedAt()); // Vérifie que la date de mise à jour est mappée correctement
     }
-
-
 }

@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 public class AuthTokenFilterTest {
     @InjectMocks
@@ -42,8 +41,7 @@ public class AuthTokenFilterTest {
         SecurityContextHolder.setContext(securityContext);  // Définit le SecurityContext mocké dans le SecurityContextHolder
     }
 
-
-
+    // Unitaire
     @Test
     public void doFilterInternal() throws Exception { // Vérifie que doFilterInternal fonctionne correctement avec un en-tête Authorization valide
         when(request.getHeader("Authorization")).thenReturn("Bearer token");  // Simule l'en-tête Authorization avec un token JWT
@@ -57,7 +55,7 @@ public class AuthTokenFilterTest {
         verify(filterChain, times(1)).doFilter(request, response);  // Vérifie que le filtre a bien passé la requête et la réponse au filtre suivant dans la chaîne
     }
 
-
+    // Unitaire
     @Test
     public void doFilterInternal_NoAuthorizationHeader() throws Exception { // Vérifie que doFilterInternal fonctionne correctement lorsque l'en-tête Authorization est absent
         when(request.getHeader("Authorization")).thenReturn(null);  // Simule l'absence de l'en-tête Authorization
@@ -67,7 +65,7 @@ public class AuthTokenFilterTest {
         verify(filterChain, times(1)).doFilter(request, response);  // Vérifie que le filtre a bien passé la requête et la réponse au filtre suivant dans la chaîne
     }
 
-
+    // Unitaire
     @Test
     public void doFilterInternal_AuthorizationHeaderNotStartingWithBearer() throws Exception { // Vérifie que doFilterInternal fonctionne correctement lorsque l'en-tête Authorization ne commence pas par "Bearer"
         when(request.getHeader("Authorization")).thenReturn("Invalid token");  // Simule un en-tête Authorization invalide
@@ -77,7 +75,7 @@ public class AuthTokenFilterTest {
         verify(filterChain, times(1)).doFilter(request, response);  // Vérifie que le filtre a bien passé la requête et la réponse au filtre suivant dans la chaîne
     }
 
-
+    // Unitaire
     @Test
     public void doFilterInternal_InvalidJwtToken() throws Exception {  // Vérifie que doFilterInternal fonctionne correctement lorsque le token JWT est invalide
         when(request.getHeader("Authorization")).thenReturn("Bearer token");  // Simule un en-tête Authorization avec un token JWT
@@ -88,7 +86,7 @@ public class AuthTokenFilterTest {
         verify(filterChain, times(1)).doFilter(request, response);  // Vérifie que le filtre a bien passé la requête et la réponse au filtre suivant dans la chaîne
     }
 
-
+    // Unitaire
     @Test
     public void doFilterInternal_ExceptionWhenLoadingUserByUsername() throws Exception { // Vérifie que doFilterInternal fonctionne correctement lorsqu'une exception est levée lors du chargement des détails de l'utilisateur
         when(request.getHeader("Authorization")).thenReturn("Bearer token");  // Simule un en-tête Authorization avec un token JWT
@@ -101,8 +99,9 @@ public class AuthTokenFilterTest {
         verify(filterChain, times(1)).doFilter(request, response);  // Vérifie que le filtre a bien passé la requête et la réponse au filtre suivant dans la chaîne
     }
 
+    // Unitaire
     @Test
-    public void doFilterInternal_ExpiredJwtToken() throws Exception { //Test pour un token expriré
+    public void doFilterInternal_ExpiredJwtToken() throws Exception { // Test pour un token expiré
         when(request.getHeader("Authorization")).thenReturn("Bearer expiredToken");  // Simule un en-tête Authorization avec un token JWT expiré
         when(jwtUtils.validateJwtToken(anyString())).thenThrow(new ExpiredJwtException(null, null, "Token expired"));  // Simule un token expiré
 
@@ -111,8 +110,9 @@ public class AuthTokenFilterTest {
         verify(filterChain, times(1)).doFilter(request, response);  // Vérifie que le filtre a bien passé la requête et la réponse au filtre suivant dans la chaîne
     }
 
+    // Unitaire
     @Test
-    public void doFilterInternal_UserDetailsNotFound() throws Exception { //UserDetail manquant
+    public void doFilterInternal_UserDetailsNotFound() throws Exception { // UserDetails manquant
         when(request.getHeader("Authorization")).thenReturn("Bearer token");  // Simule un en-tête Authorization avec un token JWT
         when(jwtUtils.validateJwtToken(anyString())).thenReturn(true);  // Simule la validation réussie du token JWT
         when(jwtUtils.getUserNameFromJwtToken(anyString())).thenReturn("username");  // Simule l'extraction du nom d'utilisateur à partir du token JWT
@@ -122,7 +122,4 @@ public class AuthTokenFilterTest {
 
         verify(filterChain, times(1)).doFilter(request, response);  // Vérifie que le filtre a bien passé la requête et la réponse au filtre suivant dans la chaîne
     }
-
-
-
 }

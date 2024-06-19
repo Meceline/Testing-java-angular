@@ -25,10 +25,11 @@ public class TeacherMapperTest {
         teacherMapper = Mappers.getMapper(TeacherMapper.class);
     }
 
+    // Unitaire
     @Test
-    public void toEntity() {
+    public void toEntity() { // Convertit un TeacherDto en Teacher
         Teacher nullTeacher = teacherMapper.toEntity((TeacherDto) null);
-        assertNull(nullTeacher);
+        assertNull(nullTeacher); // Vérifie que la conversion de null renvoie null
 
         // Crée un DTO enseignant pour le test
         TeacherDto teacherDto = new TeacherDto();
@@ -42,18 +43,18 @@ public class TeacherMapperTest {
         Teacher teacher = teacherMapper.toEntity(teacherDto);
 
         // Vérifie que les champs sont mappés correctement
-        assertEquals(teacherDto.getId(), teacher.getId());
-        assertEquals(teacherDto.getFirstName(), teacher.getFirstName());
-        assertEquals(teacherDto.getLastName(), teacher.getLastName());
-        assertEquals(teacherDto.getCreatedAt(), teacher.getCreatedAt());
-        assertEquals(teacherDto.getUpdatedAt(), teacher.getUpdatedAt());
+        assertEquals(teacherDto.getId(), teacher.getId()); // Vérifie que l'ID est mappé correctement
+        assertEquals(teacherDto.getFirstName(), teacher.getFirstName()); // Vérifie que le prénom est mappé correctement
+        assertEquals(teacherDto.getLastName(), teacher.getLastName()); // Vérifie que le nom de famille est mappé correctement
+        assertEquals(teacherDto.getCreatedAt(), teacher.getCreatedAt()); // Vérifie que la date de création est mappée correctement
+        assertEquals(teacherDto.getUpdatedAt(), teacher.getUpdatedAt()); // Vérifie que la date de mise à jour est mappée correctement
     }
 
-
+    // Unitaire
     @Test
-    public void toDto() {
+    public void toDto() { // Convertit un Teacher en TeacherDto
         TeacherDto nullTeacher = teacherMapper.toDto((Teacher) null);
-        assertNull(nullTeacher);
+        assertNull(nullTeacher); // Vérifie que la conversion de null renvoie null
 
         // Crée une entité enseignant pour le test
         Teacher teacher = new Teacher();
@@ -67,21 +68,23 @@ public class TeacherMapperTest {
         TeacherDto teacherDto = teacherMapper.toDto(teacher);
 
         // Vérifie que les champs sont mappés correctement
-        assertEquals(teacher.getId(), teacherDto.getId());
-        assertEquals(teacher.getFirstName(), teacherDto.getFirstName());
-        assertEquals(teacher.getLastName(), teacherDto.getLastName());
-        assertEquals(teacher.getCreatedAt(), teacherDto.getCreatedAt());
-        assertEquals(teacher.getUpdatedAt(), teacherDto.getUpdatedAt());
+        assertEquals(teacher.getId(), teacherDto.getId()); // Vérifie que l'ID est mappé correctement
+        assertEquals(teacher.getFirstName(), teacherDto.getFirstName()); // Vérifie que le prénom est mappé correctement
+        assertEquals(teacher.getLastName(), teacherDto.getLastName()); // Vérifie que le nom de famille est mappé correctement
+        assertEquals(teacher.getCreatedAt(), teacherDto.getCreatedAt()); // Vérifie que la date de création est mappée correctement
+        assertEquals(teacher.getUpdatedAt(), teacherDto.getUpdatedAt()); // Vérifie que la date de mise à jour est mappée correctement
     }
 
+    // Unitaire
     @Test
     public void toEntity_withNullList_returnsNull() {
         List<Teacher> result = teacherMapper.toEntity((List<TeacherDto>) null);
 
         // Vérifie que le résultat est null
-        assertNull(result);
+        assertNull(result); // Vérifie que la conversion de null renvoie null
     }
 
+    // Unitaire
     @Test
     public void toEntity_withEmptyList_returnsEmptyList() {
         // Passe une liste vide à la méthode toEntity
@@ -89,10 +92,11 @@ public class TeacherMapperTest {
         List<Teacher> result = teacherMapper.toEntity(emptyList);
 
         // Vérifie que le résultat est une liste vide
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
+        assertNotNull(result); // Vérifie que le résultat n'est pas null
+        assertTrue(result.isEmpty()); // Vérifie que la liste est vide
     }
 
+    // Unitaire
     @Test
     public void toEntity_withValidList_returnsEntityList() {
         // DTOs valides
@@ -115,24 +119,24 @@ public class TeacherMapperTest {
         // Convertit la liste de DTOs en liste d'entités
         List<Teacher> result = teacherMapper.toEntity(dtoList);
 
-        // Vérifie que le résultat n'est pas null et que la taille de la liste ok
-        assertNotNull(result);
-        assertEquals(2, result.size());
+        // Vérifie que le résultat n'est pas null et que la taille de la liste est correcte
+        assertNotNull(result); // Vérifie que le résultat n'est pas null
+        assertEquals(2, result.size()); // Vérifie que la taille de la liste est de 2
 
         // Vérifie que les propriétés des éléments sont correctement mappées
         Teacher teacher1 = result.get(0);
-        assertEquals(dto1.getId(), teacher1.getId());
-        assertEquals(dto1.getLastName(), teacher1.getLastName());
-        assertEquals(dto1.getFirstName(), teacher1.getFirstName());
-        assertEquals(dto1.getCreatedAt(), teacher1.getCreatedAt());
-        assertEquals(dto1.getUpdatedAt(), teacher1.getUpdatedAt());
+        assertEquals(dto1.getId(), teacher1.getId()); // Vérifie que l'ID est mappé correctement
+        assertEquals(dto1.getLastName(), teacher1.getLastName()); // Vérifie que le nom de famille est mappé correctement
+        assertEquals(dto1.getFirstName(), teacher1.getFirstName()); // Vérifie que le prénom est mappé correctement
+        assertEquals(dto1.getCreatedAt(), teacher1.getCreatedAt()); // Vérifie que la date de création est mappée correctement
+        assertEquals(dto1.getUpdatedAt(), teacher1.getUpdatedAt()); // Vérifie que la date de mise à jour est mappée correctement
 
         Teacher teacher2 = result.get(1);
-        assertEquals(dto2.getId(), teacher2.getId());
-        assertEquals(dto2.getLastName(), teacher2.getLastName());
-        assertEquals(dto2.getFirstName(), teacher2.getFirstName());
-        assertEquals(dto2.getCreatedAt(), teacher2.getCreatedAt());
-        assertEquals(dto2.getUpdatedAt(), teacher2.getUpdatedAt());
+        assertEquals(dto2.getId(), teacher2.getId()); // Vérifie que l'ID est mappé correctement
+        assertEquals(dto2.getLastName(), teacher2.getLastName()); // Vérifie que le nom de famille est mappé correctement
+        assertEquals(dto2.getFirstName(), teacher2.getFirstName()); // Vérifie que le prénom est mappé correctement
+        assertEquals(dto2.getCreatedAt(), teacher2.getCreatedAt()); // Vérifie que la date de création est mappée correctement
+        assertEquals(dto2.getUpdatedAt(), teacher2.getUpdatedAt()); // Vérifie que la date de mise à jour est mappée correctement
     }
 
 }

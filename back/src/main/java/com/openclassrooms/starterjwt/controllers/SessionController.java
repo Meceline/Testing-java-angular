@@ -31,11 +31,9 @@ public class SessionController {
     public ResponseEntity<?> findById(@PathVariable("id") String id) {
         try {
             Session session = this.sessionService.getById(Long.valueOf(id));
-
             if (session == null) {
                 return ResponseEntity.notFound().build();
             }
-
             return ResponseEntity.ok().body(this.sessionMapper.toDto(session));
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest().build();

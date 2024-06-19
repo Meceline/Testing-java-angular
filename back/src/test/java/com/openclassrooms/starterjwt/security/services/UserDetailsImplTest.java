@@ -2,44 +2,40 @@ package com.openclassrooms.starterjwt.security.services;
 
 import org.junit.jupiter.api.Test;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserDetailsImplTest {
 
-
+    // Unitaire
     @Test
-    public void AdminFieldTest() {    // Test le champ admin de la classe UserDetailsImpl
-        // Création d'une instance UserDetailsImpl pour un utilisateur administrateur
-        UserDetailsImpl adminUser = UserDetailsImpl.builder()
+    public void AdminFieldTest() { // Teste le champ admin de la classe UserDetailsImpl
+
+        UserDetailsImpl adminUser = UserDetailsImpl.builder() // Création d'une instance UserDetailsImpl pour un utilisateur administrateur
                 .id(1L)
                 .username("admin")
                 .firstName("Admin")
                 .lastName("User")
-                .admin(true)
+                .admin(true)  // Définit l'utilisateur comme administrateur
                 .password("password")
                 .build();
 
-        // Création d'une instance UserDetailsImpl pour un utilisateur non-administrateur
-        UserDetailsImpl nonAdminUser = UserDetailsImpl.builder()
+        UserDetailsImpl nonAdminUser = UserDetailsImpl.builder() // Création d'une instance UserDetailsImpl pour un utilisateur non-administrateur
                 .id(2L)
                 .username("user")
                 .firstName("Non-admin")
                 .lastName("User")
-                .admin(false)
+                .admin(false)  // Définit l'utilisateur comme non-administrateur
                 .password("password")
                 .build();
 
-        // Vérifie que le champ admin est true pour l'utilisateur administrateur
-        assertTrue(adminUser.getAdmin());
-        // Vérifie que le champ admin est false pour l'utilisateur non-administrateur
-        assertFalse(nonAdminUser.getAdmin());
+        assertTrue(adminUser.getAdmin());  // Vérifie que l'utilisateur admin a le champ admin défini sur true
+        assertFalse(nonAdminUser.getAdmin());  // Vérifie que l'utilisateur non-admin a le champ admin défini sur false
     }
 
+    // Unitaire
     @Test
-    public void testEquals() { //Test que 2 instances pour voir si elles représentent le même utilisateur
-        // Création de la première instance de UserDetailsImpl avec l'id 1
-        UserDetailsImpl user1 = UserDetailsImpl.builder()
+    public void testEquals() { // Teste que deux instances de UserDetailsImpl représentent le même utilisateur
+        UserDetailsImpl user1 = UserDetailsImpl.builder() // Création de la première instance de UserDetailsImpl avec l'id 1
                 .id(1L)
                 .username("user1")
                 .firstName("First")
@@ -48,8 +44,8 @@ public class UserDetailsImplTest {
                 .password("password")
                 .build();
 
-        // Création de la deuxième instance de UserDetailsImpl avec le même id mais des autres valeurs différentes
-        UserDetailsImpl user2 = UserDetailsImpl.builder()
+
+        UserDetailsImpl user2 = UserDetailsImpl.builder() // Création de la deuxième instance de UserDetailsImpl avec le même id mais des valeurs différentes
                 .id(1L)
                 .username("user2")
                 .firstName("Second")
@@ -58,8 +54,8 @@ public class UserDetailsImplTest {
                 .password("password")
                 .build();
 
-        // Création de la troisième instance de UserDetailsImpl avec un id différent
-        UserDetailsImpl user3 = UserDetailsImpl.builder()
+
+        UserDetailsImpl user3 = UserDetailsImpl.builder() // Création de la troisième instance de UserDetailsImpl avec un id différent
                 .id(2L)
                 .username("user3")
                 .firstName("Third")
@@ -68,12 +64,8 @@ public class UserDetailsImplTest {
                 .password("password")
                 .build();
 
-        // Vérification que deux utilisateurs avec le même id sont égaux
-        assertEquals(user1, user2);
-
-        // Vérification que deux utilisateurs avec des id différents ne sont pas égaux
-        assertNotEquals(user1, user3);
+        assertEquals(user1, user2);  // Vérifie que les utilisateurs avec le même id sont égaux
+        assertNotEquals(user1, user3);  // Vérifie que les utilisateurs avec des id différents ne sont pas égaux
     }
-
 
 }

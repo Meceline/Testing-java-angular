@@ -11,11 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JwtUtilsTest {
 
+    // Unitaire
     @Test
-    public void getUserNameFromJwtToken() {
-        JwtUtils jwtUtils = new JwtUtils();
-        String jwtSecret = "testSecret";
-        ReflectionTestUtils.setField(jwtUtils, "jwtSecret", jwtSecret);  // Utilise ReflectionTestUtils pour injecter le champ jwtSecret dans l'instance de JwtUtils
+    public void getUserNameFromJwtToken() { // Teste la récupération du nom d'utilisateur à partir d'un token JWT
+        JwtUtils jwtUtils = new JwtUtils();  // Crée une instance de JwtUtils
+        String jwtSecret = "testSecret";  // Définit un secret JWT pour les tests
+        ReflectionTestUtils.setField(jwtUtils, "jwtSecret", jwtSecret);  // Injecte le champ jwtSecret dans l'instance de JwtUtils
 
         String username = "testUser";  // Nom d'utilisateur utilisé pour créer le token JWT
 
@@ -32,12 +33,12 @@ public class JwtUtilsTest {
         assertEquals(username, returnedUsername);  // Vérifie que le nom d'utilisateur extrait du token correspond au nom d'utilisateur initial
     }
 
-
+    // Unitaire
     @Test
-    public void testValidateJwtToken() {
-        JwtUtils jwtUtils = new JwtUtils();
+    public void testValidateJwtToken() { // Teste la validation d'un token JWT
+        JwtUtils jwtUtils = new JwtUtils();  // Crée une instance de JwtUtils
         String jwtSecret = "testSecret";  // Définit un secret JWT pour les tests
-        ReflectionTestUtils.setField(jwtUtils, "jwtSecret", jwtSecret);  // Utilise ReflectionTestUtils pour injecter le champ jwtSecret dans l'instance de JwtUtils
+        ReflectionTestUtils.setField(jwtUtils, "jwtSecret", jwtSecret);  // Injecte le champ jwtSecret dans l'instance de JwtUtils
 
         String username = "testUser";  // Nom d'utilisateur utilisé pour créer le token JWT
 
@@ -56,16 +57,16 @@ public class JwtUtilsTest {
         // Vérifie que le token invalide est reconnu comme invalide
         boolean isInvalid = jwtUtils.validateJwtToken(invalidToken);
 
-        assertTrue(isValid);  // Assert que le token valide est effectivement valide
-        assertFalse(isInvalid);  // Assert que le token invalide est effectivement invalide
+        assertTrue(isValid);  // Vérifie que le token valide est effectivement valide
+        assertFalse(isInvalid);  // Vérifie que le token invalide est effectivement invalide
     }
 
-
+    // Unitaire
     @Test
-    public void testValidateJwtTokenWithInvalidSignature() {
-        JwtUtils jwtUtils = new JwtUtils();
+    public void testValidateJwtTokenWithInvalidSignature() { // Teste la validation d'un token JWT avec une mauvaise signature
+        JwtUtils jwtUtils = new JwtUtils();  // Crée une instance de JwtUtils
         String jwtSecret = "testSecret";  // Définit un secret JWT pour les tests
-        ReflectionTestUtils.setField(jwtUtils, "jwtSecret", jwtSecret);  // Utilise ReflectionTestUtils pour injecter le champ jwtSecret dans l'instance de JwtUtils
+        ReflectionTestUtils.setField(jwtUtils, "jwtSecret", jwtSecret);  // Injecte le champ jwtSecret dans l'instance de JwtUtils
 
         // Crée un token JWT avec une mauvaise signature
         String invalidSignatureToken = Jwts.builder()
@@ -75,5 +76,4 @@ public class JwtUtilsTest {
 
         assertFalse(jwtUtils.validateJwtToken(invalidSignatureToken));  // Vérifie que le token avec une mauvaise signature est invalide
     }
-
 }
